@@ -8,7 +8,7 @@ namespace webapi.Models
 
         }
 
-        public DbSet<Product> Products { get; set;}
+        public DbSet<Product> Product { get; set;}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             optionsBuilder.UseMySql(
