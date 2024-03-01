@@ -11,7 +11,9 @@ namespace webapi.Models
         public DbSet<Product> Products { get; set;}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-            optionsBuilder.UseSqlServer("Data Source=.; inital Catalog=lbs; User Id=root; password= ; TrustServerCertificate= True");
+            optionsBuilder.UseMySql(
+                "Server=localhost;Database=products;User=root;Password=;",
+                new MySqlServerVersion(new Version(10, 4, 28)));
         }
     }
 }
