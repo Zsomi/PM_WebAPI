@@ -1,1 +1,28 @@
-<p>product works!</p>
+<h1 class="h2">Termékek</h1>
+
+<table class="table table-striped table-sm" >
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Név</th>
+      <th scope="col">Ár</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{product.id}}</td>
+      <td>{{product.name}}</td>
+      <td>{{product.price}}</td>
+      <td>
+        <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+      </td>
+      <td>
+        <button class="btn btn-info"
+        data-bs-toggle="modal" 
+        data-bs-target="#modifyModal">
+        <i class="bi bi-pencil-square"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
