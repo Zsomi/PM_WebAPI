@@ -1,8 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ApiService } from '../shared/api.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { response } from 'express';
 
 @Component({
   selector: 'app-product',
@@ -11,7 +9,8 @@ import { response } from 'express';
 })
 export class ProductComponent {
 
-  productForm !: FormGroup;
+  addProductForm !: FormGroup;
+  editProductForm !: FormGroup;
   products: any = [];
 
   constructor(
@@ -19,9 +18,14 @@ export class ProductComponent {
     private formBuilder: FormBuilder) { }
 
     ngOnInit(): void {
-      this.productForm = this.formBuilder.group({
+      this.addProductForm = this.formBuilder.group({
         inputName: ['', Validators.required],
         inputPrice: ['', Validators.required]
+      });
+      this.editProductForm = this.formBuilder.group({
+        editInputId: ['', Validators.required],
+        editInputName: ['', Validators.required],
+        editInputPrice: ['', Validators.required]
       });
       this.getProducts();
     }
@@ -29,20 +33,45 @@ export class ProductComponent {
     getProducts() {
       this.api.getProducts().subscribe({
         next: (response: any) => {
-          this.products = response.data;
+          console.log(response);
+          this.products = response;
         },
         error: (err) => {
           console.log(err);
         }
       });
     }
+    editProduct(product: any) {
+      this.editProductForm.patchValue({editInputId: product.productId});
+      this.editProductForm.patchValue({editInputName: product.productName});
+      this.editProductForm.patchValue({editInputPrice: product.productPrice});
+    }
+
+    updateProduct() {
+      let data = {
+        productId: this.editProductForm.value.editInputId,
+        productName: this.editProductForm.value.editInputName,
+        ProductPrice: this.editProductForm.value.editInputPrice
+      };
+      this.api.updateProduct(data).subscribe({
+        next: (res) => {
+          this.getProducts();
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+  
+    }
+
     onClick() {
+      this.addProduct();
     }
 
     addProduct() {
       let data = {
-        name: this.productForm.value.inputName,
-        price: this.productForm.value.inputPrice
+        productName: this.addProductForm.value.inputName,
+        productPrice: this.addProductForm.value.inputPrice
       };
       
       this.api.addProduct(data)
@@ -58,8 +87,20 @@ export class ProductComponent {
       });
     }
 
+    deleteProduct(productId: number) {
+      this.api.deleteProduct(productId).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.getProducts();
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
+
     clearField() {
-      this.productForm.patchValue({
+      this.addProductForm.patchValue({
           inputName: '', 
           inputPrice: ''
         });

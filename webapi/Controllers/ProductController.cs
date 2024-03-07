@@ -39,17 +39,22 @@ namespace webapi.Controllers
 
         [HttpDelete]
         [Route("DeleteProduct/{id}")]
-        public bool DeleteProduct(int id) {
+        public bool DeleteProduct(int id)
+        {
             bool deletionSuccessful = false;
             var product = _productDatabaseContext.Product.Find(id);
-            if (product != null) {
-                deletionSuccessful = true;
-                _productDatabaseContext.Entry(product).State = EntityState.Deleted;
-                return deletionSuccessful;
 
-            } else {
+            if (product != null)
+            {
+                deletionSuccessful = true;
+                _productDatabaseContext.Product.Remove(product);
+                _productDatabaseContext.SaveChanges();
+            }
+            else
+            {
                 deletionSuccessful = false;
             }
+
             return deletionSuccessful;
         }
     }
