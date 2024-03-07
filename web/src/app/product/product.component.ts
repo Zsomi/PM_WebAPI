@@ -24,7 +24,7 @@ export class ProductComponent {
       inputName: ['', Validators.required],
       inputPrice: ['', Validators.required]
     });
-
+  
     this.editProductForm = this.formBuilder.group({
       editInputId: ['', Validators.required],
       editInputName: ['', Validators.required],
