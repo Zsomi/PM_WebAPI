@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace webapi.Models {
@@ -8,5 +9,6 @@ namespace webapi.Models {
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public double ProductPrice { get; set; }
+
     }
 }
