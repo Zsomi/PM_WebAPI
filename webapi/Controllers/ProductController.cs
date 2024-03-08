@@ -16,6 +16,13 @@ namespace webapi.Controllers
         }
 
         [HttpGet]
+        [Route("GetProduct/{id}")]
+        public async Task<Product> GetProductById(int id)
+        {
+            return await _productDatabaseContext.Product.FindAsync(id);
+        }
+
+        [HttpGet]
         [Route("GetProduct")]
         public async Task<IEnumerable<Product>> GetProducts() {
             return await _productDatabaseContext.Product.ToListAsync();
